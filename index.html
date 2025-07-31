@@ -144,7 +144,18 @@
                 }
             }
         });
-        scene.add(model);
+        let markerRoot = new THREE.Group();
+        scene.add(markerRoot);
+
+        let markerControls = new THREEx.ArMarkerControls(arContext, markerRoot, {
+            type: 'pattern',
+            patternUrl: 'data/patt.hiro', // или свой паттерн
+        });
+
+// потом вместо scene.add(model):
+        markerRoot.add(model);
+
+        // scene.add(model);
         model.matrixAutoUpdate = false;
 
         // Сохраняем анимации для запуска позже
