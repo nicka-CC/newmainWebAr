@@ -115,7 +115,8 @@
         // const scale = 2
         if (model) model.scale.set(scale, scale, scale);
     }
-
+    const worldAnchor = new THREE.Object3D();
+    scene.add(worldAnchor);
     loader.load('NewCat.glb', function(gltf) {
         model = gltf.scene;
         console.log(model)
@@ -124,6 +125,7 @@
         model.rotation.x = Math.PI / 18;
         // model.rotation.y = -Math.PI / 90;
         updateModelScale();
+        worldAnchor.add(model);
 
         // Настройка материалов и теней как в firstCat.html + фикс прозрачности как в secondCat.html
         model.traverse((child) => {
@@ -205,19 +207,10 @@
         requestAnimationFrame(animate);
         if (arSource.ready) arContext.update(arSource.domElement);
         if (mixer) mixer.update(clock.getDelta());
-        // if (!savedCameraMatrix && camera.matrixWorld) {
-        //     savedCameraMatrix = camera.matrixWorld.clone(); // сохранить матрицу при первом запуске
-        // }
-        //
-        // if (savedCameraMatrix && model) {
-        //     const inverseCamera = new THREE.Matrix4().getInverse(camera.matrixWorld); // обратная к текущей
-        //     const relativeMatrix = new THREE.Matrix4().multiplyMatrices(inverseCamera, savedCameraMatrix); // разница
-        //     model.matrix.identity();
-        //     model.applyMatrix4(relativeMatrix);
-        //     model.position.copy(fixedModelPosition);
-        //     model.updateMatrixWorld(true);
-        // }
-
+        if (!anchorPlaced && worldAnchor) {
+            worldAnchor.position.set(0, 0, -2); // где в мире должен быть кот
+            anchorPlaced = true;
+        }
         renderer.render(scene, camera);
     }
     animate();
