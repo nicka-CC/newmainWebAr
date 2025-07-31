@@ -201,7 +201,7 @@
         window.removeEventListener('pointerdown', startAnimationAndSound);
     }
     window.addEventListener('pointerdown', startAnimationAndSound);
-
+    let anchorPlaced = false;
     // 7. Рендер-цикл
     function animate() {
         requestAnimationFrame(animate);
