@@ -145,6 +145,7 @@
             }
         });
         scene.add(model);
+        model.matrixAutoUpdate = false;
 
         // Сохраняем анимации для запуска позже
         loadedAnimations = gltf.animations;
