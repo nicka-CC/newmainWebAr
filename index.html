@@ -119,7 +119,7 @@
     loader.load('NewCat.glb', function(gltf) {
         model = gltf.scene;
         console.log(model)
-        model.position.copy(fixedModelPosition);
+        model.position.set(0, 0, -2);
 
         model.rotation.x = Math.PI / 18;
         // model.rotation.y = -Math.PI / 90;
@@ -144,18 +144,9 @@
                 }
             }
         });
-        let markerRoot = new THREE.Group();
-        scene.add(markerRoot);
 
-        let markerControls = new THREEx.ArMarkerControls(arContext, markerRoot, {
-            type: 'pattern',
-            patternUrl: 'data/patt.hiro', // или свой паттерн
-        });
 
-// потом вместо scene.add(model):
-        markerRoot.add(model);
-
-        // scene.add(model);
+        scene.add(model);
         model.matrixAutoUpdate = false;
 
         // Сохраняем анимации для запуска позже
@@ -214,18 +205,18 @@
         requestAnimationFrame(animate);
         if (arSource.ready) arContext.update(arSource.domElement);
         if (mixer) mixer.update(clock.getDelta());
-        if (!savedCameraMatrix && camera.matrixWorld) {
-            savedCameraMatrix = camera.matrixWorld.clone(); // сохранить матрицу при первом запуске
-        }
-
-        if (savedCameraMatrix && model) {
-            const inverseCamera = new THREE.Matrix4().getInverse(camera.matrixWorld); // обратная к текущей
-            const relativeMatrix = new THREE.Matrix4().multiplyMatrices(inverseCamera, savedCameraMatrix); // разница
-            model.matrix.identity();
-            model.applyMatrix4(relativeMatrix);
-            model.position.copy(fixedModelPosition);
-            model.updateMatrixWorld(true);
-        }
+        // if (!savedCameraMatrix && camera.matrixWorld) {
+        //     savedCameraMatrix = camera.matrixWorld.clone(); // сохранить матрицу при первом запуске
+        // }
+        //
+        // if (savedCameraMatrix && model) {
+        //     const inverseCamera = new THREE.Matrix4().getInverse(camera.matrixWorld); // обратная к текущей
+        //     const relativeMatrix = new THREE.Matrix4().multiplyMatrices(inverseCamera, savedCameraMatrix); // разница
+        //     model.matrix.identity();
+        //     model.applyMatrix4(relativeMatrix);
+        //     model.position.copy(fixedModelPosition);
+        //     model.updateMatrixWorld(true);
+        // }
 
         renderer.render(scene, camera);
     }
