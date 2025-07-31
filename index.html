@@ -43,7 +43,7 @@
     scene.add(light);
 
     // Модель
-    const loader = new GLTFLoader();
+    const loader = new  THREE.GLTFLoader();;
     loader.load('newCat.glb', (gltf) => {
         const model = gltf.scene;
         model.position.set(0, 0, 0);
